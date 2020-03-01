@@ -1,0 +1,18 @@
+#include <iostream>
+using namespace std;
+int main() {
+	int n;
+	cin >> n;
+	int ans = 0;
+	for (int length = 1, k = 10; length <=9; length++, k *= 10) {
+		int end = k - 1;
+		if (n < k) {
+			end = n;
+		}
+		int add = length*(end - (k / 10) + 1);
+		ans += add;
+		if (n < k) break;
+	}
+	cout << ans;
+	return 0;
+}
