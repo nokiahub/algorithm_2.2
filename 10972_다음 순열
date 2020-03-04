@@ -1,0 +1,35 @@
+#include <iostream>
+using namespace std;
+int a[10001];
+int main() {
+	int n; bool flag = false;
+	cin >> n;
+	for (int i = 1; i <= n; i++) {
+		cin >> a[i];
+	}
+	//첫 부분순열 구하기
+	int i = n;
+	while(a[i - 1] > a[i]) {
+		i--;
+	}
+	if (i == 1) flag = true;
+	//i-1번째와 i~n중 최솟값을 swap
+	if (flag == false) {
+		int small = i;
+		for (int j = i; j <= n; j++) {
+			if (a[i - 1] > a[j]) continue;
+			if (a[small] > a[j]) small = j;
+		}
+		swap(a[i - 1], a[small]);
+		//i부터 n 까지 reverse
+		for (int j = 0; j < (n - i + 1) / 2; j++){
+			swap(a[i + j], a[n - j]);
+		}
+		for (int i = 1; i <= n; i++) {
+			cout << a[i] << ' ';
+		}
+	}else {
+		cout << -1 << endl;
+	}
+	return 0;
+}
