@@ -1,0 +1,36 @@
+//여러가지 방법중 두가지 
+//1. n과 m 과 같이 재귀함수를 사용 
+//2. 다음 순열 알고리즘을 사용 
+//3. 둘 다 
+
+#include <iostream>
+using namespace std;
+int a[8], index[8]; 
+bool c[8]; int answer = 0;
+void go(int *a, int selected, int n) {
+	if (selected == n) {
+		int sum = 0;
+		for (int i = 1; i < n; i++) {
+			int add = a[index[i]] - a[index[i-1]];
+			if (add < 0) add = -add;
+			sum += add;
+		}
+		if (sum > answer) answer = sum;
+	}
+
+	for (int i = 0; i < n; i++) {
+		if (c[i] == true) continue;
+		c[i] = true; index[selected] = i;
+		go(a, selected + 1, n);
+		c[i] = false;
+	}
+}
+int main() {
+	int n;
+	cin >> n;
+	for (int i = 0; i < n; i++) {
+		cin >> a[i];
+	}
+	go(a, 0, n);
+	cout << answer << endl;
+}
