@@ -1,0 +1,38 @@
+//다음 순열 알고리즘을 return형 bool인 함수로 만듬
+//다음 순열의 부등호만 바꿔서 구현
+
+#include <iostream>
+using namespace std;
+int a[10001];
+bool next_permutation(int *a, int n) {
+	int i = n;
+	while (a[i - 1] < a[i] && i > 1) {
+		i--;
+	}
+	if (i == 1) return false;
+	int index = i;
+	for (int j = i; j <= n; j++) {
+		if (a[j] < a[i - 1] && a[j] >= a[index]) index = j;
+	}
+	swap(a[i - 1], a[index]);
+	int start = i, end = n;
+	while (start < end) {
+		swap(a[start], a[end]);
+		start++; end--;
+	}
+	return true;
+}
+int main() {
+	int n;
+	cin >> n;
+	for (int i = 1; i <= n; i++) {
+		cin >> a[i];
+	}
+	if (next_permutation(a, n)) {
+		for (int i = 1; i <= n; i++)
+			cout << a[i] << ' ';
+	}else {
+		cout << -1 << '\n';
+	}
+	return 0;
+}
