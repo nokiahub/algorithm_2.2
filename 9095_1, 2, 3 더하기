@@ -1,0 +1,26 @@
+//1, 2, 3으로 n을 만드는 경우의 수 구하기
+// n==0인 경우에 한 경우가 종결되므로, n==0일때 1을 더한다.
+
+#include <iostream>
+using namespace std;
+int s;
+void how_many(int n) {
+	if (n == 0) {
+		s += 1;
+		return;
+	}
+	for (int i = 1; i <= 3; i++) {
+		if (n - i >= 0) how_many(n - i);
+	}
+}
+int main() {
+	int n;
+	cin >> n;
+	for (int i = 0; i < n; i++) {
+		int t;
+		s = 0;
+		cin >> t;
+		how_many(t);
+		cout << s << '\n';
+	}
+}
