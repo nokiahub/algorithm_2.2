@@ -1,0 +1,43 @@
+//1. 모든 문자열을 구한다
+//2. 해당 문자열이 조건에 부합한지 체크한다.
+//3. 조건에 부합하지 않는 경우에는 return; 부합하는 경우 해당 문자열 출력
+
+#include <iostream>
+#include <algorithm>
+using namespace std;
+char alpha[15];
+int index[15];
+void password(int indx, int selected, int l, int c) {
+	if (selected == l) {
+		int v = 0, co = 0;
+		for (int i = 0; i < selected; i++) {
+			char letter = alpha[index[i]];
+			if (letter == 'a' || letter == 'e' || letter == 'i' || letter == 'o' || letter == 'u')
+				v++;
+			else
+				co++;
+		}
+		if (v > 0 && co > 1) {
+			for (int i = 0; i < selected; i++) {
+				cout << alpha[index[i]];
+			}
+			cout << '\n';
+		}
+		return;
+	}
+	if (indx >= c) return;
+	index[selected] = indx;
+	password(indx + 1, selected + 1, l, c);
+	index[selected] = 0;
+	password(indx + 1, selected, l, c);
+}
+int main() {
+	int l, c;
+	cin >> l >> c;
+	for (int i = 0; i < c; i++) {
+		cin >> alpha[i];
+	}
+	sort(alpha, alpha + c);
+	password(0, 0, l, c);
+	return 0;
+}
