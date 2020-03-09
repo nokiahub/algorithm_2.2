@@ -1,0 +1,47 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+int n, answer = 2000;
+int s[20][20];
+void go(int index, vector<int>& first, vector<int>& second) {
+	int x=-1;
+	if (index == n) {
+		int t1 = 0, t2 = 0;
+		if (first.size() == n/2) {
+			for (int i = 0; i < n/2; i++) {
+				for (int j = 0; j < n / 2; j++) {
+					if (i == j) continue;
+					t1 += s[first[i]][first[j]];
+					t2 += s[second[i]][second[j]];
+				}
+			}
+			x = t1 - t2;
+			if (x < 0) x = -x;
+			if (x < answer) answer = x;
+		}
+		return ;
+	}
+	if (first.size() < n / 2) {
+		first.push_back(index);
+		go(index + 1, first, second);
+		first.pop_back();
+	}
+	if (second.size() < n / 2) {
+		second.push_back(index);
+		go(index + 1, first, second);
+		second.pop_back();
+	}
+	return;
+}
+int main() {
+	cin >> n;
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < n; j++) {
+			cin >> s[i][j];
+		}
+	}
+	vector <int> first, second;
+	go(0, first, second);
+	cout << answer;
+	return 0;
+}
