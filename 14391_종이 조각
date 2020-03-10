@@ -1,0 +1,65 @@
+//비트마스크
+//2*2행렬의 경우, 0000~1111경우를 다 검사함 (0: 가로, 1: 세로)
+//shift연산과 &연산 사용
+//가로 합과 세로 합을 더한 값 중 최소값 탐색
+
+#include <iostream>
+using namespace std;
+int p[4][4], c[4][4];
+int main() {
+	int n, m;
+	cin >> n >> m;
+	for (int i = 0; i < n; i++) {
+		int number;
+		cin >> number;
+		for (int j = m - 1; j > -1; j--) {
+			p[i][j] = number % 10;
+			number /= 10;
+		}
+	}
+	int answer = 0;
+	for (int i = 0; i < (1 << (n * m)) ; i++) {
+		for (int j = 0; j < n*m; j++) {
+			if (i&(1 << j)) {
+				c[j/m][j%m] = 1;
+			}else {
+				c[j / m][j%m] = 0;
+			}
+		}
+		int rowSum = 0, colSum = 0, total = 0;
+		for (int k = 0; k < n; k++) {
+			int row = 0;
+			for (int j = 0; j < m; j++) {
+				if (c[k][j]==0) {
+					row += p[k][j];
+					row *= 10;
+				}
+				else {
+					rowSum += row/10;
+					row = 0;
+				}
+			}
+			rowSum += row/10;
+		}
+		for (int k = 0; k < m; k++) {
+			int col = 0;
+			for (int j = 0; j < n; j++) {
+				if (c[j][k]) {
+					col += p[j][k];
+					col *= 10;
+				}
+				else {
+					colSum += col / 10;
+					col = 0;
+				}
+			}
+			colSum += col / 10;
+		}
+		total = colSum + rowSum;
+		if (total > answer) {
+			answer = total;
+		}
+	}
+	cout << answer;
+	return 0;
+}
