@@ -1,0 +1,24 @@
+// n의 길이만큼 00..0~11..1 모두 확인하는 방법
+// 확인한 값이 s 와 같으면 answer +=1 
+
+#include <iostream>
+using namespace std;
+int num[20];
+int main() {
+	int n, s, answer=0;
+	cin >> n >> s;
+	for (int i = 0; i < n; i++) {
+		cin >> num[i];
+	}
+	for (int i = 1; i < (1 << n); i++) {
+		int sum = 0;
+		for (int j = 0; j < n; j++) {
+			if (i & (1 << j)) {
+				sum += num[j];
+			}
+		}
+		if (sum == s) answer += 1;
+	}
+	cout << answer;
+	return 0;
+}
