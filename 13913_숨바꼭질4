@@ -1,0 +1,66 @@
+//숨바꼭질 문제와 같지만 역추적 알고리즘을 사용해야 함
+//자신이 거쳐온 지점들을 출력해야 함(p 배열)
+//재귀 방법과 반복문 방법이 있음
+
+
+#include <iostream>
+#include <queue>
+#include <cstring>
+#include <stack>
+using namespace std;
+int t[100001];
+int p[100001];
+
+void printp(int n, int k) {
+	if (n != k) {
+		printp(n, p[k]);
+	}
+	cout << k << ' ';
+}
+int main() {
+	memset(t, -1, sizeof(t));
+	int n, k;
+	cin >> n >> k;
+	t[n] = 0;
+
+	queue <int> q;
+	q.push(n);
+
+	while (!q.empty()) {
+		int x = q.front();
+		q.pop();
+		if (x == k) break;
+		if (x - 1 >= 0 && t[x - 1] == -1) {
+			t[x - 1] = t[x] + 1;
+			p[x - 1] = x;
+			q.push(x - 1);
+		}
+		if (x + 1 <= 100000 && t[x + 1] == -1) {
+			t[x + 1] = t[x] + 1;
+			p[x + 1] = x;
+			q.push(x + 1);
+		}
+		if (2 * x <= 100000 && t[2 * x] == -1) {
+			t[2*x] = t[x] + 1;
+			p[2 * x] = x;
+			q.push(2 * x);
+		}
+	}
+	int time = t[k];
+	cout << time<< '\n';
+
+	/*역추적 재귀방법
+	printp(n, k);*/
+
+	//역추적 반복문 방법
+	stack <int> s;
+	for (int i = k; i != n; i=p[i]) {
+		s.push(i);
+	}
+	s.push(n);
+	while (!s.empty()) {
+		cout << s.top() << ' ';
+		s.pop();
+	}
+	return 0;
+}
